@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>presentation</title>
+
+    <link rel="stylesheet" type="text/css" href="styles/styles.css">
+
+    <script language="javascript" type="text/javascript" src="scripts/libs/jquery-2.1.1.min.js"></script>
+    <script language="javascript" type="text/javascript" src="scripts/libs/knockout-3.1.0.js"></script>
+    <script language="javascript" type="text/javascript" src="scripts/libs/showdown.js"></script>
+
+    <script language="javascript" type="text/javascript" src="scripts/viewModels/Presentation.js"></script>
+    <script language="javascript" type="text/javascript" src="scripts/viewModels/Slide.js"></script>
+
+    <script language="javascript" type="text/javascript" src="scripts/client.js"></script>
+    <script language="javascript" type="text/javascript" src="scripts/helpers.js"></script>
+    <script language="javascript" type="text/javascript" src="scripts/koBindingHandlers.js"></script>
+</head>
+<body>
+
+<div id="pnlPresentation">
+    <div id="pnlSlides" data-bind="template: {name: 'slide-template', foreach: Slides}"></div>
+    <div id="pnlCurrentSlideNumber" data-bind="html: CurrentSlideNumber"></div>
+</div>
+
+<script type="text/html" id="slide-template">
+    <div class="slide" data-bind="visible: $data == $root.CurrentSlide()">
+        <div class="slide-output" data-bind="html: $data.OutputHTML"></div>
+        <div class="slide-definition" contenteditable="true"
+             data-bind="editableHTML: $data.DefinitionHTML, editableText: $data.Definition"></div>
+    </div>
+</script>
+
+<input type="button" value="add new slide" data-bind="click: AddNewSlide">
+<input type="button" value="remove current slide" data-bind="click: RemoveCurrentSlide">
+<br/>
+<input type="button" value="previous slide" data-bind="click: GoToPreviousSlide">
+<input type="button" value="next slide" data-bind="click: GoToNextSlide">
+
+</body>
+</html>

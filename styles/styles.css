@@ -1,0 +1,23 @@
+#pnlPresentation {
+    width: 960px;
+    margin: auto;
+    position: relative;
+}
+
+#pnlCurrentSlideNumber {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: red;
+}
+
+.slide-definition {
+    height: 200px;
+    border: 1px solid gray;
+    margin-top: 10px;
+}
+
+.slide-output {
+    height: 500px;
+    border: 1px solid red;
+}
