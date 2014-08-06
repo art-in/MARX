@@ -58,6 +58,8 @@ ko.bindingHandlers.slideShow = {
             $(element).toggle(makeVisible);
         }
         else {
+            $(element).stop();
+
             if (makeVisible) {                        // Show
                 var startPosition =
                 { top: targetPosition.top,
@@ -101,9 +103,9 @@ ko.bindingHandlers.hotkeys = {
         var hotkeys = valueAccessor();
 
         $.each(hotkeys, function (index, properties) {
-            $(element).bind("keydown", properties.key, function () {
-                properties.fn.apply(properties.context);
-            })
+            $(element).bind("keydown", properties.key, $.throttle(function () {
+                 properties.fn.apply(properties.context);
+            }, 250));
         });
     }
 };
