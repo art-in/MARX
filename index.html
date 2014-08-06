@@ -25,18 +25,23 @@
 </div>
 
 <script type="text/html" id="slide-template">
-    <div class="slide" data-bind="visible: $data == $root.CurrentSlide()">
+    <div class="slide" style="display: none;"
+         data-bind="slideShow: $data == $root.CurrentSlide(),
+                    slideTargetPosition:pnlSlides,
+                    slideDirection: $root.CurrentSlideIndex() - $root.PreviousSlideIndex()">
         <div class="slide-output" data-bind="html: $data.OutputHTML"></div>
         <div class="slide-definition" contenteditable="true"
-             data-bind="editableHTML: $data.DefinitionHTML, editableText: $data.Definition"></div>
+             data-bind="innerHTML: $data.DefinitionHTML"></div>
     </div>
 </script>
 
-<input type="button" value="add new slide" data-bind="click: AddNewSlide">
-<input type="button" value="remove current slide" data-bind="click: RemoveCurrentSlide">
-<br/>
-<input type="button" value="previous slide" data-bind="click: GoToPreviousSlide">
-<input type="button" value="next slide" data-bind="click: GoToNextSlide">
+<div id="pnlActions">
+    <input type="button" value="add new slide" data-bind="click: AddNewSlide">
+    <input type="button" value="remove current slide" data-bind="click: RemoveCurrentSlide">
+    <br/>
+    <input type="button" value="previous slide" data-bind="click: GoToPreviousSlide">
+    <input type="button" value="next slide" data-bind="click: GoToNextSlide">
+</div>
 
 </body>
 </html>
