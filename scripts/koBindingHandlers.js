@@ -17,14 +17,14 @@ ko.bindingHandlers.innerHTML = {
 };
 
 /** Manages visibility of element with animated slide effect.
- Shows element by sliding from outside the screen to target position,
- hides element by sliding from target position to outside the screen.
- Binding properties:
- @slideShow - true to show, false to hide.
- @slideTargetPosition - id of element which top-left corner will indicate
- target position for sliding when showing.
- @slideDirection - > 0 to move from right to left, < 0 - vise versa,
- 0 - set visibility without animation.
+ *  Shows element by sliding from outside the screen to target position,
+ *  hides element by sliding from target position to outside the screen.
+ *  Binding properties:
+ *   @slideShow - true to show, false to hide.
+ *   @slideTargetPosition - id of element which top-left corner will indicate
+ *                          target position for sliding when showing.
+ *   @slideDirection - > 0 to move from right to left, < 0 - vise versa,
+ *                     = 0 - just set visibility without animation.
  */
 ko.bindingHandlers.slideShow = {
     update: function (element, valueAccessor, allBindings) {
@@ -83,5 +83,27 @@ ko.bindingHandlers.slideShow = {
                     });
             }
         }
+    }
+};
+
+/** Registers hotkey on the element.
+ *  Binding properties: array of objects with hotkey properties each.
+ *  Hotkey properties contain:
+ *  @key - key combination to use in binding (eg. 'Ctrl+N', 'left', 'Esc')
+ *         see http://htmlpreview.github.io/?https://github.com/jeresig/jquery.hotkeys/master/test-static-05.html
+ *  @context - 'this' context for function to call
+ *             (TBD: For now, I did not found a way to make it without explicitly passed context.
+ *                   But I'm sure it's possible since KO can do that!)
+ *  @fn - function to call on keydown
+ * */
+ko.bindingHandlers.hotkeys = {
+    init: function (element, valueAccessor) {
+        var hotkeys = valueAccessor();
+
+        $.each(hotkeys, function (index, properties) {
+            $(element).bind("keydown", properties.key, function () {
+                properties.fn.apply(properties.context);
+            })
+        });
     }
 };
