@@ -52,10 +52,10 @@
      data-bind="addClass        : !$root.InEditMode(),
                 addClassName    : 'presentation-expanded',
                 addClassDuration: !$root.WasRendered ? 0 : $root.ModeSwitchDuration">
-    <div id="pnlSlides"
+    <div class="slides"
          data-bind="template: {name: 'slide-template', foreach: Slides, afterRender: SetSlidesRendered}">
     </div>
-    <div id="pnlCurrentSlideNumber" data-bind="html: CurrentSlideNumberStatus"></div>
+    <div class="current-slide-status" data-bind="html: CurrentSlideNumberStatus"></div>
 
     <div class="add-icon" title="Add slide"
          data-bind="click: $root.AddNewSlide,
@@ -113,12 +113,12 @@
                 slideDuration : $root.ModeSwitchDuration,
                 slideDelay    : $root.InEditMode() ? $root.ModeSwitchDuration : 0">
     <div class="legend-line">
-        <span class="legend-line-title">Presentation/Edit mode:</span>
+        <span class="legend-line-title">Change mode:</span>
         <span class="legend-line-key">Shift+Enter</span>
     </div>
     <div class="legend-line">
-        <span class="legend-line-title">New slide:</span>
-        <span class="legend-line-key">Alt+Shift+N</span>
+        <span class="legend-line-title">Full screen:</span>
+        <span class="legend-line-key">F11</span>
     </div>
     <div class="legend-line">
         <span class="legend-line-title">Next slide:</span>
@@ -127,6 +127,10 @@
     <div class="legend-line">
         <span class="legend-line-title">Previous slide:</span>
         <span class="legend-line-key">&#8592;</span>
+    </div>
+    <div class="legend-line">
+        <span class="legend-line-title">New slide:</span>
+        <span class="legend-line-key">Alt+Shift+N</span>
     </div>
 </div>
 
