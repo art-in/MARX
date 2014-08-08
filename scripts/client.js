@@ -1,11 +1,11 @@
 // ---------------------  CONSTANTS  -------------------------------------------
-var SLIDES_PANEL_ID = "pnlSlides";
+var SLIDES_PANEL_CLASS = "slides";
 var SLIDE_PANEL_CLASS = "slide";
 var SLIDE_DEFINITION_CLASS = "slide-definition";
 // ---------------------  INIT  ------------------------------------------------
 window.onload = function () {
     var presentation = new Presentation();
-    var presentationElement = $("#"+SLIDES_PANEL_ID);
+    var presentationElement = $("."+SLIDES_PANEL_CLASS);
 
     // Check if presentation already has slides.
     var hasSlides = presentationElement.find("."+SLIDE_PANEL_CLASS).length > 0;

@@ -86,10 +86,10 @@ body {
 
 .slide-definition {
     height: 38%;
-    width: 960px;
     border: 1px solid gray;
     background-color: white;
     min-height: 200px;
+    padding: 5px;
     overflow: auto;
 
     -webkit-box-shadow: 4px 4px 25px 1px rgba(0, 0, 0, 0.75);

@@ -16,7 +16,6 @@ ko.bindingHandlers.innerHTML = {
     }
 };
 
-
 /**
  * Manages visibility of element with animated slide effect.
  * Shows element by sliding from outside the screen to target position,
@@ -166,7 +165,8 @@ ko.bindingHandlers.addClass = {
     }
 };
 
-/** Registers hotkey on the element.
+/**
+ *  Registers hotkey on the element.
  *  Binding properties: array of objects with hotkey properties each.
  *  Hotkey properties contain:
  *  @key - key combination to use in binding (eg. 'Ctrl+N', 'left', 'Esc')
@@ -182,8 +182,10 @@ ko.bindingHandlers.hotkeys = {
         var hotkeys = valueAccessor();
 
         $.each(hotkeys, function (index, properties) {
-            $(element).bind("keydown", properties.key, $.throttle(function () {
+            $(element).bind("keydown", properties.key, $.throttle(function (e) {
+                e.preventDefault();
                 properties.fn.apply(properties.context);
+                return false;
             }, 250));
         });
     }

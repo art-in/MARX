@@ -65,6 +65,13 @@ var Presentation = function () {
     });
 
     this.AddNewSlide = function () {
+        if (self.WasRendered && !self.InEditMode())
+        {
+            // Do not allow adding slides
+            // in presentation mode.
+            return;
+        }
+
         var newSlide = new Slide();
         this.Slides.push(newSlide);
         this.CurrentSlide(newSlide);
