@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="styles/styles.css">
 
     <script language="javascript" type="text/javascript" src="scripts/libs/jquery-2.1.1.min.js"></script>
+    <script language="javascript" type="text/javascript" src="scripts/libs/jquery-ui.min.js"></script>
     <script language="javascript" type="text/javascript" src="scripts/libs/knockout-3.1.0.js"></script>
     <script language="javascript" type="text/javascript" src="scripts/libs/showdown.js"></script>
     <script language="javascript" type="text/javascript" src="scripts/libs/jquery.hotkeys.js"></script>
@@ -21,35 +22,100 @@
 </head>
 <body data-bind="hotkeys: [{key: 'left', context:$root, fn: GoToPreviousSlide},
                            {key: 'right', context:$root, fn: GoToNextSlide},
-                           {key: 'alt+shift+n', context:$root, fn: AddNewSlide}]">
-
-<div id="pnlPresentation">
-    <div id="pnlSlides" data-bind="template: {name: 'slide-template', foreach: Slides}"></div>
-    <div id="pnlCurrentSlideNumber" data-bind="html: CurrentSlideNumber"></div>
-</div>
+                           {key: 'alt+shift+n', context:$root, fn: AddNewSlide},
+                           {key: 'shift+return', context:$root, fn: ToggleMode}]">
 
 <script type="text/html" id="slide-template">
-    <div class="slide" style="display: none;"
+    <div class="slide" style="display: none"
          data-bind="slideShow: $data == $root.CurrentSlide(),
-                    slideTargetPosition:pnlSlides,
-                    slideDirection: $root.CurrentSlideIndex() - $root.PreviousSlideIndex()">
-        <div class="slide-output" data-bind="html: $data.OutputHTML"></div>
+                    slideDirection: ($root.CurrentSlideIndex() - $root.PreviousSlideIndex()) == 0 ? 'stay' :
+                                    ($root.CurrentSlideIndex() - $root.PreviousSlideIndex())  > 0 ? 'left' : 'right',
+                    slideDuration: $root.SlideDuration">
+        <div class="slide-output" data-bind="html: $data.OutputHTML,
+                                             addClass        : !$root.InEditMode(),
+                                             addClassName    : 'slide-output-expanded',
+                                             addClassDuration: !$root.WasRendered ? 0 : $root.ModeSwitchDuration">
+        </div>
         <div class="slide-definition" contenteditable="true"
              data-bind="innerHTML: $data.DefinitionHTML,
-                        hotkeys: [{key: 'alt+shift+n', context:$root, fn: $root.AddNewSlide}]"></div>
+                        slideShow     : $root.InEditMode,
+                        slideDirection: (!$root.WasRendered || !$data.WasRendered) ? 'stay'
+                                                              : $root.InEditMode() ? 'up' : 'down',
+                        slideDuration : $root.ModeSwitchDuration,
+                        slideDelay    : $root.InEditMode() ? $root.ModeSwitchDuration : 0,
+                        hotkeys: [{key: 'alt+shift+n', context:$root, fn: $root.AddNewSlide},
+                                  {key: 'shift+return', context:$root, fn: $root.ToggleMode}]"></div>
     </div>
 </script>
 
-<div id="pnlActions">
-    <input type="button" value="add new slide" data-bind="click: AddNewSlide">
-    <input type="button" value="remove current slide" data-bind="click: RemoveCurrentSlide">
-    <br/>
-    <input type="button" value="previous slide" data-bind="click: GoToPreviousSlide">
-    <input type="button" value="next slide" data-bind="click: GoToNextSlide">
+<div class="presentation"
+     data-bind="addClass        : !$root.InEditMode(),
+                addClassName    : 'presentation-expanded',
+                addClassDuration: !$root.WasRendered ? 0 : $root.ModeSwitchDuration">
+    <div id="pnlSlides"
+         data-bind="template: {name: 'slide-template', foreach: Slides, afterRender: SetSlidesRendered}">
+    </div>
+    <div id="pnlCurrentSlideNumber" data-bind="html: CurrentSlideNumberStatus"></div>
+
+    <div class="add-icon" title="Add slide"
+         data-bind="click: $root.AddNewSlide,
+                    slideShow: $root.InEditMode,
+                    slideDirection : !$root.WasRendered ? 'stay'
+                                   : $root.InEditMode() ? 'down' : 'up',
+                    slideDuration  : $root.ModeSwitchDuration,
+                    slideDelay     : $root.InEditMode() ? $root.ModeSwitchDuration : 0">
+    </div>
+
+    <div class="remove-icon" title="Remove slide"
+         data-bind="click: $root.RemoveCurrentSlide,
+                    slideShow     : $root.InEditMode,
+                    slideDirection: !$root.WasRendered ? 'stay'
+                                  : $root.InEditMode() ? 'down' : 'up',
+                    slideDuration : $root.ModeSwitchDuration,
+                    slideDelay    : $root.InEditMode() ? $root.ModeSwitchDuration : 0">
+    </div>
+
+    <div class="previous-step-container"
+         data-bind="click: $root.GoToPreviousSlide,
+                        slideShow: $root.InEditMode,
+                        slideDirection: !$root.WasRendered ? 'stay'
+                                      : $root.InEditMode() ? 'right' : 'left',
+                        slideDuration : $root.ModeSwitchDuration,
+                        slideDelay    : $root.InEditMode() ? $root.ModeSwitchDuration : 0">
+        <div class="previous-step-icon"></div>
+    </div>
+
+    <div class="next-step-container"
+         data-bind="click: $root.GoToNextSlide,
+                    slideShow     : $root.InEditMode,
+                    slideDirection: !$root.WasRendered ? 'stay'
+                                  : $root.InEditMode() ? 'left' : 'right',
+                    slideDuration : $root.ModeSwitchDuration,
+                    slideDelay: $root.InEditMode() ? $root.ModeSwitchDuration : 0">
+        <div class="next-step-icon"></div>
+    </div>
 </div>
 
-<div class="legend">
-    <div class="legend-title">Hotkeys:</div>
+<div class="start-container"
+     data-bind="visible: $root.InEditMode, click: $root.ToggleMode">
+    <div class="start-icon" title="Start presentation"></div>
+</div>
+
+<div class="stop-container"
+     data-bind="visible: !$root.InEditMode(), click: $root.ToggleMode">
+    <div class="stop-icon" title="Edit presentation"></div>
+</div>
+
+<div class="legend"
+     data-bind="slideShow: $root.InEditMode,
+                slideDirection: !$root.WasRendered ? 'stay'
+                              : $root.InEditMode() ? 'right' : 'left',
+                slideDuration : $root.ModeSwitchDuration,
+                slideDelay    : $root.InEditMode() ? $root.ModeSwitchDuration : 0">
+    <div class="legend-line">
+        <span class="legend-line-title">Presentation/Edit mode:</span>
+        <span class="legend-line-key">Shift+Enter</span>
+    </div>
     <div class="legend-line">
         <span class="legend-line-title">New slide:</span>
         <span class="legend-line-key">Alt+Shift+N</span>

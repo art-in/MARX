@@ -1,23 +1,267 @@
-#pnlPresentation {
+html, body {
+    height: 99%;
+}
+
+body {
+    background-color: lightgray;
+}
+
+#pnlSlides {
+    height: 100%;
+    width: 100%;
+}
+
+.presentation {
     width: 960px;
+    height: 100%;
     margin: auto;
     position: relative;
 }
 
+.presentation-expanded {
+    width: 100%;
+}
+
 #pnlCurrentSlideNumber {
     position: absolute;
-    top: 5px;
+    top: 10px;
+    right: 50px;
+    color: gray;
+    border: 1px dotted gray;
+}
+
+.mode-switcher {
+    position: fixed;
     right: 10px;
-    color: red;
+    top: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: monospace;
+}
+
+.legend {
+    position: fixed;
+    left: 10px;
+    top: 10px;
+
+    border: 1px dotted gray;
+}
+
+.legend-line {
+}
+
+.legend-line-title {
+    display: inline-block;
+    width: 150px;
+}
+
+.legend-line-key {
+    font-weight: bold;
+}
+
+.slide {
+    height: 100%;
 }
 
 .slide-definition {
     height: 200px;
+    width: 960px;
     border: 1px solid gray;
-    margin-top: 10px;
+    background-color: white;
 }
 
 .slide-output {
     height: 500px;
-    border: 1px solid red;
+    border: 1px solid gray;
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.slide-output-expanded {
+    height: 100%;
+    margin-bottom: 0;
+}
+
+.previous-step-container,
+.next-step-container {
+    position: absolute;
+
+    width: 100px;
+    height: 100px;
+    border: 1px dotted gray;
+}
+
+.previous-step-container {
+    top: 100px;
+    left: -200px;
+
+    padding: 100px 0 100px 100px;
+}
+
+.next-step-container {
+    top: 100px;
+    right: -200px;
+
+    padding: 100px 100px 100px 0;
+}
+
+.previous-step-icon {
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-right: 60px solid gray;
+}
+
+.next-step-icon {
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-left: 60px solid gray;
+    margin-left: 35px;
+}
+
+.previous-step-container:hover .previous-step-icon {
+    border-right: 60px solid dimgray;
+}
+
+.next-step-container:hover .next-step-icon {
+    border-left: 60px solid dimgray;
+}
+
+.add-icon {
+    position: absolute;
+    top: 10px;
+    right: -30px;
+
+    width: 20px;
+    height: 20px;
+}
+
+.add-icon:hover:before,
+.add-icon:hover:after {
+    background-color: dimgray;
+}
+
+.add-icon:before, .add-icon:after {
+    background-color: gray;
+    content: "";
+    position: absolute;
+}
+
+.add-icon:before {
+    left: 8px;
+    width: 5px;
+    height: 21px;
+}
+
+.add-icon:after {
+    top: 8px;
+    width: 21px;
+    height: 5px;
+}
+
+.remove-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    width: 20px;
+    height: 20px;
+}
+
+.remove-icon:hover:before,
+.remove-icon:hover:after {
+    background-color: dimgray;
+}
+
+.remove-icon:before, .remove-icon:after {
+    background: gray;
+    content: "";
+    position: absolute;
+}
+
+.remove-icon:before {
+    left: 8px;
+    width: 5px;
+    height: 21px;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.remove-icon:after {
+    top: 8px;
+    width: 21px;
+    height: 5px;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.stop-container,
+.start-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    border: 1px solid gray;
+    width: 20px;
+    height: 20px;
+    padding: 2px;
+}
+
+.start-icon {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 12px solid gray;
+    margin-left: 5px;
+}
+
+.start-icon:hover {
+    border-left: 12px solid dimgray;
+}
+
+.stop-icon:before,
+.stop-icon:after {
+    background-color: gray;
+    content: "";
+    position: absolute;
+}
+
+.stop-icon:before {
+    left: 5px;
+    width: 5px;
+    height: 18px;
+    top: 3px;
+}
+
+.stop-icon:after {
+    left: 14px;
+    width: 5px;
+    height: 18px;
+    top: 3px;
+}
+
+.stop-icon:hover:before,
+.stop-icon:hover:after
+{
+    background-color: dimgray;
+}
+
+.add-icon:hover,
+.remove-icon:hover,
+.previous-step-container:hover,
+.next-step-container:hover,
+.start-container,
+.stop-container{
+    cursor: pointer;
 }

@@ -24,10 +24,15 @@ window.onload = function () {
     }
     else {
         // Create initial slide.
-        var slide = new Slide("first slide");
+        var slide = new Slide(FIRST_SLIDE_DEFINITION_HELP);
         presentation.Slides.push(slide);
         presentation.CurrentSlide(slide);
     }
 
+    // Start presentation immediately if presentation
+    // already contains added/changed slides.
+    presentation.InEditMode(!presentation.WasChanged());
+
     ko.applyBindings(presentation);
+    presentation.WasRendered = true;
 };
