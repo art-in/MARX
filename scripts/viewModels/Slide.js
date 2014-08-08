@@ -33,5 +33,8 @@ var Slide = function (definitionHTML) {
 }
 
 FIRST_SLIDE_DEFINITION_HELP =
-    "TBD: First slide definition introduction \
-    <div>===</div>";
+"<div>Welcome to __MARX__ (or Marks)</div> \
+<div>----</div> \
+<div>___</div> \
+<div>Start typing [Markdown](http://daringfireball.net/projects/markdown/syntax/) in the textbox below...</div> \
+<div>>>... save your presentation with __Ctrl+S__ when you are ready</div>";
